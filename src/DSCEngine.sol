@@ -56,7 +56,7 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine_TokenAddressesAndPriceFeedAddressesMustBeSameLength();
     error DSCEngine_NotAllowedToken();
     error DSCEngine__TranferFailed();
-    error DSCEngine__BreaksHealthFactor(uint256 healthFactor);
+    error DSCEngine__BreaksHealthFactor(uint256 userHealthFactor);
     error DSCEngine__MintFailed();
     error DSCEngine__HealthFactorOk();
     error DSCEngine__HealthFactorNotImproved();
@@ -368,5 +368,10 @@ contract DSCEngine is ReentrancyGuard {
 
     function getDebtOfUser(address user) external view returns (uint256 totalDscMinted) {
         totalDscMinted = s_DSCMinted[user];
+    }
+
+    function getHealthFactor(address user) external view returns (uint256 userHealthFactor) {
+        userHealthFactor = _healthFactor(user);
+        return userHealthFactor;
     }
 }
